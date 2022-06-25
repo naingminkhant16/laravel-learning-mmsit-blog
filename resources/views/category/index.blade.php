@@ -30,12 +30,13 @@
                     <td>
                         <a href="{{route('category.edit',$category->id)}}" class="btn btn-sm btn-outline-dark">
                             <i class="bi bi-pencil"></i></a>
-                        <form action="{{route('category.destroy',$category->id)}}" class="d-inline-block" method="post">
+                        <form action="{{route('category.destroy',$category->id)}}" class="d-inline-block" method="post"
+                            id="{{'cat'.$category->id}}">
                             @csrf
                             @method('delete')
-                            <button class="btn btn-sm btn-outline-dark" type="submit">
-                                <i class="bi bi-trash"></i></button>
                         </form>
+                        <button class="btn btn-sm btn-outline-dark" onclick="confirmDelete({{$category->id}})">
+                            <i class="bi bi-trash3"></i></button>
                     </td>
                     <td>
                         <p class="mb-0 text-black-50">
