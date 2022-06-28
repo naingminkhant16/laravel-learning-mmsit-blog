@@ -31,7 +31,7 @@
                         <a href="{{route('category.edit',$category->id)}}" class="btn btn-sm btn-outline-dark">
                             <i class="bi bi-pencil"></i></a>
                         <form action="{{route('category.destroy',$category->id)}}" class="d-inline-block" method="post"
-                            id="{{'cat'.$category->id}}">
+                            id="{{'del'.$category->id}}">
                             @csrf
                             @method('delete')
                         </form>

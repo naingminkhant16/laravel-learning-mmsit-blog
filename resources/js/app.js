@@ -31,7 +31,7 @@ window.confirmDelete = function (id) {
         confirmButtonText: 'Yes, delete it!'
     }).then((result) => {
         if (result.isConfirmed) {
-            let form = document.getElementById(`cat${id}`);
+            let form = document.getElementById(`del${id}`);
             form.submit();
         }
     })

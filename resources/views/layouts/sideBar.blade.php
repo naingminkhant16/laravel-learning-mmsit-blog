@@ -15,6 +15,7 @@
     <a href="{{route('category.create')}}" class="list-group-item list-group-item-action">Create Category</a>
 </div>
 
+
 {{-- <small class="text-black-50">Managae Posts</small>
 <div class="list-group mb-3">
     <a href="{{route('home')}}" class="list-group-item list-group-item-action">Home</a>

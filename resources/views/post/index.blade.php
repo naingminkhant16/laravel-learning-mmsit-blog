@@ -49,7 +49,7 @@
                             <a href="{{route('post.show',$post->id)}}" class="btn btn-sm btn-outline-dark">
                                 <i class="bi bi-info-circle"></i></a>
                             <form action="{{route('post.destroy',$post->id)}}" class="d-inline-block" method="post"
-                                id="{{'cat'.$post->id}}">
+                                id="{{'del'.$post->id}}">
                                 @csrf
                                 @method('delete')
                             </form>
