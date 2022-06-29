@@ -3,18 +3,18 @@
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{route('home')}}">Home</a></li>
-        <li class="breadcrumb-item active">Manage Posts</li>
+        <li class="breadcrumb-item active">Manage Users</li>
     </ol>
 </nav>
 <div class="card">
     <div class="card-body">
-        <h4>Post Lists</h4>
+        <h4>User Lists</h4>
         <hr>
         <div class="mb-3 d-flex justify-content-between">
             <div class="">
                 @if (request('search'))
                 <span class="me-2">Search By : "{{request('search')}}"</span>
-                <a href="{{route('post.index')}}"><i class="bi bi-trash3"></i></a>
+                <a href="{{route('user.index')}}"><i class="bi bi-trash3"></i></a>
                 @endif
             </div>
             <form action="" class="w-50">
@@ -29,60 +29,60 @@
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>Title</th>
-                        <th>Category</th>
-                        <th>Owner</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Role</th>
                         <th>Control</th>
                         <th>Created At</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse ($posts as $post)
+                    @forelse ($users as $user)
                     <tr>
-                        <td>{{$post->id}}</td>
-                        <td class="w-25">{{$post->title}}</td>
-                        <td>{{App\Models\Category::find($post->category_id)->title}}</td>
-                        <td>{{App\Models\User::find($post->user_id)->name}}</td>
+                        <td>{{$user->id}}</td>
+                        <td class="w-25">{{$user->name}}</td>
+                        <td>{{$user->email}}</td>
+                        <td>{{$user->role}}</td>
                         <td>
-                            @can('update',$post)
-                            <a href="{{route('post.edit',$post->id)}}" class="btn btn-sm btn-outline-dark">
+                            @can('update',$user)
+                            <a href="{{route('user.edit',$user->id)}}" class="btn btn-sm btn-outline-dark">
                                 <i class="bi bi-pencil"></i></a>
                             @endcan
 
-                            <a href="{{route('post.show',$post->id)}}" class="btn btn-sm btn-outline-dark">
+                            <a href="{{route('user.show',$user->id)}}" class="btn btn-sm btn-outline-dark">
                                 <i class="bi bi-info-circle"></i></a>
 
-                            @can('delete',$post)
-                            <form action="{{route('post.destroy',$post->id)}}" class="d-inline-block" method="post"
-                                id="{{'del'.$post->id}}">
+                            @can('delete',$user)
+                            <form action="{{route('user.destroy',$user->id)}}" class="d-inline-block" method="post"
+                                id="{{'del'.$user->id}}">
                                 @csrf
                                 @method('delete')
                             </form>
-                            <button class="btn btn-sm btn-outline-dark" onclick="confirmDelete({{$post->id}})">
+                            <button class="btn btn-sm btn-outline-dark" onclick="confirmDelete({{$user->id}})">
                                 <i class="bi bi-trash3"></i></button>
                             @endcan
                         </td>
                         <td>
                             <p class="mb-0 text-black-50">
                                 <i class="bi bi-calendar"></i>
-                                {{$post->created_at->format("D M Y")}}
+                                {{$user->created_at->format("D M Y")}}
                             </p>
                             <p class="mb-0 text-black-50">
                                 <i class="bi bi-clock"></i>
-                                {{$post->created_at->format("h : m A")}}
+                                {{$user->created_at->format("h : m A")}}
                             </p>
                         </td>
                     </tr>
                     </tr>
                     @empty
-                    <td colspan="6" class="text-center">There is no related post!</td>
+                    <td colspan="6" class="text-center">There is no related user!</td>
                     @endforelse
                     <tr></tr>
                 </tbody>
             </table>
         </div>
         <div class="">
-            {{$posts->onEachSide(1)->links()}}
+            {{$users->onEachSide(1)->links()}}
         </div>
     </div>
 </div>

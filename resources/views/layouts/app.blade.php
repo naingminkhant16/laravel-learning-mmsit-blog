@@ -95,7 +95,7 @@
             @endauth
 
             @guest
-            @yield('content')
+            <div class="container">@yield('content')</div>
             @endguest
         </main>
     </div>

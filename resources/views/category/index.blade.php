@@ -15,6 +15,7 @@
                 <tr>
                     <th>#</th>
                     <th>Title</th>
+                    <th>Owner</th>
                     <th>Control</th>
                     <th>Created At</th>
                 </tr>
@@ -27,9 +28,14 @@
                         <br>
                         <span class="badge bg-secondary">{{$category->slug}}</span>
                     </td>
+                    <td>{{App\Models\User::find($category->user_id)->name}}</td>
                     <td>
+                        @can('update',$category)
                         <a href="{{route('category.edit',$category->id)}}" class="btn btn-sm btn-outline-dark">
                             <i class="bi bi-pencil"></i></a>
+                        @endcan
+
+                        @can('delete',$category)
                         <form action="{{route('category.destroy',$category->id)}}" class="d-inline-block" method="post"
                             id="{{'del'.$category->id}}">
                             @csrf
@@ -37,6 +43,7 @@
                         </form>
                         <button class="btn btn-sm btn-outline-dark" onclick="confirmDelete({{$category->id}})">
                             <i class="bi bi-trash3"></i></button>
+                        @endcan
                     </td>
                     <td>
                         <p class="mb-0 text-black-50">

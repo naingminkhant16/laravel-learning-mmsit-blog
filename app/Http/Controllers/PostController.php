@@ -6,6 +6,7 @@ use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
 use App\Models\Post;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -13,6 +14,10 @@ use function PHPUnit\Framework\fileExists;
 
 class PostController extends Controller
 {
+    public function __construct()
+    {
+        // $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -94,6 +99,11 @@ class PostController extends Controller
      */
     public function update(UpdatePostRequest $request, Post $post)
     {
+
+        if (Gate::denies('update', $post)) {
+            return abort(403, "U are not allowed to edit!");
+        };
+
         $post->title = $request->title;
         $post->slug = Str::slug($request->title);
         $post->body = $request->body;
@@ -123,6 +133,8 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
+        if (Gate::denies('delete', $post)) return abort(403, "U are not allowed to delete");
+
         $oldTitle = $post->title;
         if (isset($post->featured_image) && file_exists(storage_path('app/public/' . $post->featured_imgae))) {
             Storage::delete('public/' . $post->featured_image); //delete old imgae

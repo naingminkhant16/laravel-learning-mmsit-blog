@@ -16,8 +16,8 @@
 </div>
 
 
-{{-- <small class="text-black-50">Managae Posts</small>
+<small class="text-black-50">Managae Users</small>
 <div class="list-group mb-3">
-    <a href="{{route('home')}}" class="list-group-item list-group-item-action">Home</a>
-    <a href="{{route('test')}}" class="list-group-item list-group-item-action">Test</a>
-</div> --}}
+    <a href="{{route('user.index')}}" class="list-group-item list-group-item-action">Users List</a>
+    <a href="{{route('user.create')}}" class="list-group-item list-group-item-action">User Create</a>
+</div>

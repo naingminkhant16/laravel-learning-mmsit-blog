@@ -6,13 +6,14 @@ use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
 use App\Models\Category;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
 
 class CategoryController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('testing:5');
+        // $this->middleware('testing:5');
     }
     /**
      * Display a listing of the resource.
@@ -83,6 +84,7 @@ class CategoryController extends Controller
      */
     public function update(UpdateCategoryRequest $request, Category $category)
     {
+        Gate::authorize('update', $category);
         $category->title = $request->title;
         $category->slug = Str::slug($request->title);
         // $category->user_id = Auth::id();
@@ -98,6 +100,7 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
+        Gate::authorize('delete', $category);
         $categoryTitle = $category->title;
         $category->delete();
         return redirect()->route('category.index')->with('status', $categoryTitle . ' is deleted successfully.');
