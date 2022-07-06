@@ -15,7 +15,11 @@
                 <tr>
                     <th>#</th>
                     <th>Title</th>
+                    {{-- @if (Auth::user()->role!=='author') --}}
+                    @notAuthor
                     <th>Owner</th>
+                    @endnotAuthor
+                    {{-- @endif --}}
                     <th>Control</th>
                     <th>Created At</th>
                 </tr>
@@ -28,7 +32,12 @@
                         <br>
                         <span class="badge bg-secondary">{{$category->slug}}</span>
                     </td>
-                    <td>{{App\Models\User::find($category->user_id)->name}}</td>
+                    {{-- @if (Auth::user()->role!=='author') --}}
+                    @notAuthor
+                    <td>{{$category->user->name ??'unknow'}}</td>
+                    @endnotAuthor
+                    {{-- @endif --}}
+
                     <td>
                         @can('update',$category)
                         <a href="{{route('category.edit',$category->id)}}" class="btn btn-sm btn-outline-dark">

@@ -9,7 +9,11 @@
 </nav>
 <div class="card">
     <div class="card-body">
-        This is home
+        This is home //
+        {{-- @isAdmin('editor')
+        he is admin
+        @endisAdmin --}}
+        {{Auth::user()->isAdmin()?"yes" :'no';}}
     </div>
 </div>
 @endsection

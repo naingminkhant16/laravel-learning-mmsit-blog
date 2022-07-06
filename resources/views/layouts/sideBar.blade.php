@@ -15,9 +15,12 @@
     <a href="{{route('category.create')}}" class="list-group-item list-group-item-action">Create Category</a>
 </div>
 
-
+{{-- @if (Auth::user()->role === 'admin') --}}
+@admin
 <small class="text-black-50">Managae Users</small>
 <div class="list-group mb-3">
     <a href="{{route('user.index')}}" class="list-group-item list-group-item-action">Users List</a>
-    <a href="{{route('user.create')}}" class="list-group-item list-group-item-action">User Create</a>
+    {{-- <a href="{{route('user.create')}}" class="list-group-item list-group-item-action">User Create</a> --}}
 </div>
+@endadmin
+{{-- @endif --}}

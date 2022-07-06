@@ -20,7 +20,7 @@ return new class extends Migration
             $table->longText('body');
             $table->text('excerpt');
             $table->string('featured_image')->nullable();
-            $table->foreignId('category_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('category_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
         });

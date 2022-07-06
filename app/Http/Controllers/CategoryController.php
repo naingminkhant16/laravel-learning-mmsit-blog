@@ -22,7 +22,9 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories =  Category::latest()->get();
+        $categories =  Category::latest()
+            ->when(Auth::user()->isAuthor(), fn ($q) => $q->where('user_id', Auth::id()))
+            ->get();
         return view('category.index', compact('categories'));
     }
 
@@ -60,8 +62,9 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        return abort(404);
-        // return redirect()->route('category.index');
+        return $category->posts;
+        // return abort(404);
+        return redirect()->route('category.index');
     }
 
     /**
@@ -72,6 +75,8 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
+        Gate::authorize('update', $category);
+
         return view('category.edit', compact('category'));
     }
 
@@ -100,7 +105,9 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
+
         Gate::authorize('delete', $category);
+
         $categoryTitle = $category->title;
         $category->delete();
         return redirect()->route('category.index')->with('status', $categoryTitle . ' is deleted successfully.');

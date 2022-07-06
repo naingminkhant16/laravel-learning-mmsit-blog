@@ -31,7 +31,11 @@
                         <th>#</th>
                         <th>Title</th>
                         <th>Category</th>
+                        {{-- @if (Auth::user()->role!=='author') --}}
+                        @notAuthor
                         <th>Owner</th>
+                        @endnotAuthor
+                        {{-- @endif --}}
                         <th>Control</th>
                         <th>Created At</th>
                     </tr>
@@ -41,8 +45,12 @@
                     <tr>
                         <td>{{$post->id}}</td>
                         <td class="w-25">{{$post->title}}</td>
-                        <td>{{App\Models\Category::find($post->category_id)->title}}</td>
-                        <td>{{App\Models\User::find($post->user_id)->name}}</td>
+                        <td>{{$post->category->title}}</td>
+                        {{-- @if (Auth::user()->role!=='author') --}}
+                        @notAuthor
+                        <td>{{$post->user->name}}</td>
+                        @endnotAuthor
+                        {{-- @endif --}}
                         <td>
                             @can('update',$post)
                             <a href="{{route('post.edit',$post->id)}}" class="btn btn-sm btn-outline-dark">
