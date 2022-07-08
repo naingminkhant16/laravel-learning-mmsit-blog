@@ -25,12 +25,14 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call([
-            NationSeeder::class, UserSeeder::class,
-            CategorySeeder::class, PostSeeder::class
+            // NationSeeder::class,
+            // UserSeeder::class,
+            // CategorySeeder::class,
+            PostSeeder::class
         ]);
-        $photos = Storage::allFiles('public');
-        array_shift($photos); //shift git ingnore
-        Storage::delete($photos); //clean Storage
-        echo "\e[95mStorage Clean \n"; //echo terminal color
+        // $photos = Storage::allFiles('public');
+        // array_shift($photos); //shift git ingnore
+        // Storage::delete($photos); //clean Storage
+        // echo "\e[95mStorage Clean \n"; //echo terminal color
     }
 }

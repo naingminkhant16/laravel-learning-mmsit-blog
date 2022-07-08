@@ -20,6 +20,7 @@
                     <th>Owner</th>
                     @endnotAuthor
                     {{-- @endif --}}
+                    <th>Post Count</th>
                     <th>Control</th>
                     <th>Created At</th>
                 </tr>
@@ -38,6 +39,16 @@
                     @endnotAuthor
                     {{-- @endif --}}
 
+                    <td>
+                        {{$category->posts()->count()}}
+                        {{-- <br>
+                        //Nested Eager Loading
+                        @forelse ($category->user->photos as $photo)
+                        <img src="{{asset('storage/'.$photo->name)}}" alt="" class="mb-3 rounded" height="50">
+                        @empty
+                        <span class="badge bg-secondary">no photos</span>
+                        @endforelse --}}
+                    </td>
                     <td>
                         @can('update',$category)
                         <a href="{{route('category.edit',$category->id)}}" class="btn btn-sm btn-outline-dark">

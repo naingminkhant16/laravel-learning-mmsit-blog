@@ -7,3 +7,7 @@
 // Bootstrap
 @import "~bootstrap-icons/font/bootstrap-icons.css";
 @import '~bootstrap/scss/bootstrap';
+
+.gallery{
+    columns: 3 100px;
+}

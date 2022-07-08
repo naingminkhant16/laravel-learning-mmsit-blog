@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Policies\PhotoPolicy;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -50,5 +51,15 @@ class User extends Authenticatable
     public function isAuthor()
     {
         return $this->role === 'author';
+    }
+
+    public function posts()
+    {
+        return $this->hasMany(Post::class);
+    }
+
+    public function photos()
+    {
+        return $this->hasManyThrough(Photo::class, Post::class);
     }
 }
