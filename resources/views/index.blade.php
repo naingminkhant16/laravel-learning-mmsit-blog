@@ -8,7 +8,7 @@
                 <form action="">
                     <div class="input-group">
                         <input type="text" name="search" class="form-control" value="{{request('search')}}">
-                        <button class="btn btn-secondary">Search</button>
+                        <button class="btn btn-primary">Search</button>
                     </div>
                 </form>
             </div>
@@ -19,7 +19,7 @@
             </div>
             @endisset
             @forelse ($posts as $post)
-            <div class="card mb-3">
+            <div class="card border-secondary mb-3">
                 <div class="card-body">
                     <h3 class="card-title">{{$post->title}}</h3>
                     <hr>
@@ -27,9 +27,9 @@
                         <a href="{{route('page.category',$post->category->slug)}}"><span
                                 class="badge bg-secondary">{{$post->category->title}}</span></a>
                     </div>
-                    <p class="card-text">{{Str::words($post->body,70)}}</p>
+                    <p class="">{{Str::words($post->body,70)}}</p>
                     <div class="d-flex justify-content-between align-items-center">
-                        <div class="text-black-50">
+                        <div class="text-muted">
                             <p class="mb-0">{{$post->user->name}}</p>
                             <small class="mb-0">{{$post->created_at->diffForHumans()}}</small>
                         </div>
