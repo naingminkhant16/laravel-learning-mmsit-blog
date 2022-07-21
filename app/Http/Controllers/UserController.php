@@ -15,8 +15,12 @@ class UserController extends Controller
     public function index()
     {
         $users = User::when(request('search'), function ($query, $search) {
-            $query->where('name', 'like', '%' . $search . '%')->orWhere('email', 'like', '%' . $search . '%');
-        })->latest('id')->paginate(10)->withQueryString();
+            $query->where('name', 'like', '%' . $search . '%')
+                ->orWhere('email', 'like', '%' . $search . '%');
+        })
+            ->latest('id')
+            ->paginate(10)
+            ->withQueryString();
         return view('user.index', compact('users'));
     }
 

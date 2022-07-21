@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
-use function PHPUnit\Framework\fileExists;
 
 class PostController extends Controller
 {

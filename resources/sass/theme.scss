@@ -1,4 +1,6 @@
 @import "./bwvariables";
 @import '~bootstrap-icons/font/bootstrap-icons.css';
+@import "~venobox/dist/venobox.css";
+$carousel-control-color: $primary;
 @import '~bootstrap/scss/bootstrap.scss';
 @import "./bootswatch";

@@ -40,7 +40,7 @@
                 </div>
             </div>
             @empty
-            <div class="card">
+            <div class="mt-5">
                 <h4 class="text-center">There is no posts yet!</h4>
             </div>
             @endforelse
