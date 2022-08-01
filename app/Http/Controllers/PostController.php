@@ -21,16 +21,16 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::when(request('keyword'),function($q){
+        $posts = Post::when(request('keyword'), function ($q) {
             $keyword = request('keyword');
-            $q->orWhere("title","like","%$keyword%")
-                ->orWhere("description","like","%$keyword%");
+            $q->orWhere("title", "like", "%$keyword%")
+                ->orWhere("description", "like", "%$keyword%");
         })
-            ->when(Auth::user()->isAuthor(),fn($q)=>$q->where("user_id",Auth::id()))
+            ->when(Auth::user()->isAuthor(), fn ($q) => $q->where("user_id", Auth::id()))
             ->latest("id")
-            ->with(['category','user'])
+            ->with(['category', 'user'])
             ->paginate(30)->withQueryString();
-        return view('post.index',compact('posts'));
+        return view('post.index', compact('posts'));
     }
 
     /**
@@ -57,29 +57,29 @@ class PostController extends Controller
         $post->title = $request->title;
         $post->slug = Str::slug($request->title);
         $post->description = $request->description;
-        $post->excerpt = Str::words($request->description,50," .....");
+        $post->excerpt = Str::words($request->description, 50, " .....");
         $post->user_id = Auth::id();
         $post->category_id = $request->category;
 
-        if($request->hasFile('featured_image')){
-            $newName = uniqid()."_featured_image.".$request->file('featured_image')->extension();
-            $request->file('featured_image')->storeAs("public",$newName);
-//            $request->featured_image->storeAs();
+        if ($request->hasFile('featured_image')) {
+            $newName = uniqid() . "_featured_image." . $request->file('featured_image')->extension();
+            $request->file('featured_image')->storeAs("public", $newName);
+            //            $request->featured_image->storeAs();
             $post->featured_image = $newName;
         }
 
-//        return $post;
+        //        return $post;
 
         $post->save();
 
-//        return $post;
+        //        return $post;
 
 
         // saving photo
-        foreach ($request->photos as $photo){
+        foreach ($request->photos as $photo) {
             // 1.save to storage
-            $newName = uniqid()."_post_photo.".$photo->extension();
-            $photo->storeAs("public",$newName);
+            $newName = uniqid() . "_post_photo." . $photo->extension();
+            $photo->storeAs("public", $newName);
 
             // 2.save to db
             $photo = new Photo();
@@ -91,7 +91,7 @@ class PostController extends Controller
 
 
 
-        return redirect()->route('post.index')->with("status", $post->title .' is added Successfully');
+        return redirect()->route('post.index')->with("status", $post->title . ' is added Successfully');
     }
 
     /**
@@ -102,9 +102,9 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-//        return $post->user;
-        Gate::authorize('view',$post);
-        return view('post.show',compact('post'));
+        //        return $post->user;
+        Gate::authorize('view', $post);
+        return view('post.show', compact('post'));
     }
 
     /**
@@ -115,8 +115,8 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        Gate::authorize('update',$post);
-        return view('post.edit',compact('post'));
+        Gate::authorize('update', $post);
+        return view('post.edit', compact('post'));
     }
 
     /**
@@ -128,47 +128,47 @@ class PostController extends Controller
      */
     public function update(UpdatePostRequest $request, Post $post)
     {
-        if(Gate::denies('update',$post)){
-            return abort(403,"U are not allowed to update");
+        if (Gate::denies('update', $post)) {
+            return abort(403, "U are not allowed to update");
         }
 
         $post->title = $request->title;
         $post->slug = Str::slug($request->title);
         $post->description = $request->description;
-        $post->excerpt = Str::words($request->description,50," .....");
+        $post->excerpt = Str::words($request->description, 50, " .....");
         $post->user_id = Auth::id();
         $post->category_id = $request->category;
 
-        if($request->hasFile('featured_image')){
+        if ($request->hasFile('featured_image')) {
 
             //delete old photo
-            Storage::delete("public/".$post->featured_image);
+            Storage::delete("public/" . $post->featured_image);
 
             // update and upload new photo
-            $newName = uniqid()."_featured_image.".$request->file('featured_image')->extension();
-            $request->file('featured_image')->storeAs("public",$newName);
-//            $request->featured_image->storeAs();
+            $newName = uniqid() . "_featured_image." . $request->file('featured_image')->extension();
+            $request->file('featured_image')->storeAs("public", $newName);
+            //            $request->featured_image->storeAs();
             $post->featured_image = $newName;
-
         }
 
         $post->update();
 
         // saving photo
-        foreach ($request->photos as $photo){
-            // 1.save to storage
-            $newName = uniqid()."_post_photo.".$photo->extension();
-            $photo->storeAs("public",$newName);
+        if ($request->photos) {
+            foreach ($request->photos as $photo) {
+                // 1.save to storage
+                $newName = uniqid() . "_post_photo." . $photo->extension();
+                $photo->storeAs("public", $newName);
 
-            // 2.save to db
-            $photo = new Photo();
-            $photo->post_id = $post->id;
-            $photo->name = $newName;
-            $photo->save();
+                // 2.save to db
+                $photo = new Photo();
+                $photo->post_id = $post->id;
+                $photo->name = $newName;
+                $photo->save();
+            }
         }
 
-        return redirect()->route('post.index')->with("status", $post->title .' is updated Successfully');
-
+        return redirect()->route('post.index')->with("status", $post->title . ' is updated Successfully');
     }
 
     /**
@@ -180,18 +180,18 @@ class PostController extends Controller
     public function destroy(Post $post)
     {
 
-        if(Gate::denies('delete',$post)){
-            return abort(403,"U are not allowed to delete");
+        if (Gate::denies('delete', $post)) {
+            return abort(403, "U are not allowed to delete");
         }
 
         $postTitle = $post->title;
-        if(isset($post->featured_image)){
-            Storage::delete("public/".$post->featured_image);
+        if (isset($post->featured_image)) {
+            Storage::delete("public/" . $post->featured_image);
         }
 
-        foreach ($post->photos as $photo){
+        foreach ($post->photos as $photo) {
             //remove from storage
-            Storage::delete("public/".$photo->name);
+            Storage::delete("public/" . $photo->name);
 
             //delete from table
             $photo->delete();
@@ -199,7 +199,6 @@ class PostController extends Controller
 
         $post->delete();
 
-        return redirect()->route('post.index')->with("status", $postTitle .' is deleted Successfully');
-
+        return redirect()->route('post.index')->with("status", $postTitle . ' is deleted Successfully');
     }
 }
